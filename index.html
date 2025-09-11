@@ -61,12 +61,15 @@
             left: 0;
             width: 100%;
             padding: 12vh 20px 8vh 20px;
-            background: linear-gradient(to top, #ffffff 70%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to top, #ffffff 60%, rgba(255,255,255,0) 100%);
         }
 
         #cover.out { transform: translateY(-100%); }
 
-        #cover h4 { font-size: 1.2rem; font-weight: 400; letter-spacing: 1px; color: var(--text-light); }
+        #cover h4 { 
+            font-size: 1.2rem; font-weight: 400; letter-spacing: 1px; 
+            color: var(--text-light);
+        }
         #cover h1 { font-family: var(--font-script); font-size: 3.8rem; font-weight: normal; margin: 10px 0; color: var(--dark-pink); }
         #open-invitation {
             padding: 13px 38px; margin-top: 25px;
@@ -80,8 +83,10 @@
         #invitation-content {
             display: none; /* Hidden initially */
             max-width: 800px; margin: auto; background-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom); /* Memberi ruang di bawah untuk safe area */
         }
         .main-background {
+            min-height: 100vh; /* Memastikan background setidaknya setinggi layar */
             background-image: url('https://i.postimg.cc/kXRhH3q3/Desain-tanpa-judul-2.png');
             background-size: cover; background-position: top center; background-attachment: fixed;
         }
@@ -173,11 +178,11 @@
         /* Music Toggle Button */
         #music-toggle {
             position: fixed;
-            width: 50px; height: 50px;
+            width: 55px; height: 55px;
             background-color: rgba(0, 0, 0, 0.5); color: white; border: none; border-radius: 50%;
-            font-size: 1.2rem; cursor: pointer; z-index: 99; display: none; /* Hidden initially */
+            font-size: 1.3rem; cursor: pointer; z-index: 99; display: none; /* Hidden initially */
             justify-content: center; align-items: center; transition: transform 0.3s;
-            /* === PENYESUAIAN POSISI UNTUK "SAFE AREA" HP === */
+            /* Penyesuaian posisi untuk "safe area" HP */
             bottom: calc(20px + env(safe-area-inset-bottom));
             right: calc(20px + env(safe-area-inset-right, 20px));
         }
@@ -186,24 +191,31 @@
         /* === KODE RESPONSIVE YANG DISEMPURNAKAN === */
         @media (max-width: 768px) {
             section { 
-                padding: 50px 20px; 
+                padding: 50px 25px; 
                 margin: 15px;
             }
             .cover-content { 
-                /* Menyesuaikan padding untuk layar lebih kecil */
-                padding-top: 15vh;
-                padding-bottom: 10vh;
+                /* Tombol di bawah, teks di atasnya */
+                justify-content: flex-end;
+                padding: 0 20px calc(20px + env(safe-area-inset-bottom)) 20px;
+                background: linear-gradient(to top, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 100%);
+            }
+            #open-invitation {
+                width: 100%;
+                padding: 18px;
+                font-size: 1.1rem;
+                margin-top: 0;
+                margin-bottom: 20px;
             }
             .script-text { font-size: 3.2rem; }
             h2.section-title { font-size: 2.2rem; }
             .hero .guest-name-main { font-size: 2.5rem; }
             .countdown span { font-size: 2rem; }
             .countdown div { min-width: 70px; padding: 12px; }
-            #cover h1 { font-size: 3.2rem; }
-            .thank-you {
-                 /* Memberi ruang ekstra di bagian paling bawah */
-                padding-bottom: calc(70px + env(safe-area-inset-bottom));
-            }
+            #cover h1 { font-size: 3.5rem; margin-bottom: 15px; }
+            #cover h4 { margin-bottom: 5px; }
+            .section-subtitle { font-size: 1rem; }
+            .wish-card { max-width: 100%; } /* Kartu ucapan memenuhi lebar */
         }
 
         /* Additional styles for the new form elements */
@@ -237,7 +249,7 @@
     <div id="cover">
         <div class="cover-content">
             <h4>The Sweet Seventeen Birthday Of</h4>
-            <!-- EDIT NAME HERE -->
+            <!-- EDIT NAMA DI SINI -->
             <h1>Gusti Ayu</h1>
             <button id="open-invitation"><i class="fa-solid fa-envelope-open"></i> Open Invitation</button>
         </div>
@@ -393,7 +405,7 @@
                 .wish-card {
                     background-color: var(--bg-light);
                     border: 1px solid #EAE8E1;
-                    padding: 15px 20px; border-radius: 15px; text-align: left;
+                    padding: 18px 22px; text-align: left;
                     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
                     position: relative;
                     max-width: 90%;
