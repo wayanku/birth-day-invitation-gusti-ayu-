@@ -56,13 +56,18 @@
         }
         
         .cover-content {
-            padding-top: 40vh; 
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 12vh 20px 8vh 20px;
+            background: linear-gradient(to top, #ffffff 70%, rgba(255,255,255,0) 100%);
         }
 
         #cover.out { transform: translateY(-100%); }
 
-        #cover h4 { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
-        #cover h1 { font-family: var(--font-script); font-size: 3.8rem; font-weight: normal; margin: 10px 0; text-shadow: 2px 2px 5px rgba(0,0,0,0.6);}
+        #cover h4 { font-size: 1.2rem; font-weight: 400; letter-spacing: 1px; color: var(--text-light); }
+        #cover h1 { font-family: var(--font-script); font-size: 3.8rem; font-weight: normal; margin: 10px 0; color: var(--dark-pink); }
         #open-invitation {
             padding: 13px 38px; margin-top: 25px;
             background-color: var(--pink); color: var(--text-dark);
@@ -83,15 +88,18 @@
 
         section { 
             padding: 70px 40px; text-align: center; position: relative; margin: 25px;
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.25);
+            background: #ffffff; /* Mengubah latar menjadi putih solid */
+            border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
         .script-text { font-family: var(--font-script); font-size: 4.5rem; color: var(--dark-pink); font-weight: normal; }
         h2.section-title { font-family: var(--font-serif); font-size: 2.8rem; color: var(--text-dark); margin-bottom: 20px; }
         
         /* Scroll Animations */
-        .animated { opacity: 0; transition: opacity 0.9s ease-out, transform 0.9s ease-out; }
+        .animated { 
+            opacity: 0; 
+            transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transition-delay: var(--delay, 0s);
+        }
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
@@ -99,7 +107,7 @@
         .fade-in-left { transform: translateX(-50px); }
         .fade-in-right { transform: translateX(50px); }
         .zoom-in { transform: scale(0.9); }
-        .animated.in-view { opacity: 1; transform: translate(0, 0) scale(1); }
+        .animated.visible { opacity: 1; transform: translate(0, 0) scale(1); }
 
         /* Hero Section */
         .hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; }
@@ -179,11 +187,12 @@
         @media (max-width: 768px) {
             section { 
                 padding: 50px 20px; 
-                margin: 15px; 
-                background: rgba(255, 255, 255, 0.65); /* Sedikit lebih pekat di HP agar mudah dibaca */
+                margin: 15px;
             }
             .cover-content { 
-                padding-top: 30vh; 
+                /* Menyesuaikan padding untuk layar lebih kecil */
+                padding-top: 15vh;
+                padding-bottom: 10vh;
             }
             .script-text { font-size: 3.2rem; }
             h2.section-title { font-size: 2.2rem; }
@@ -196,6 +205,28 @@
                 padding-bottom: calc(70px + env(safe-area-inset-bottom));
             }
         }
+
+        /* Additional styles for the new form elements */
+        .attendance-options {
+            display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #ddd;
+            border-radius: 8px; overflow: hidden; margin-top: 5px; margin-bottom: 15px;
+        }
+        .attendance-options label {
+            text-align: center; padding: 12px; cursor: pointer; transition: all 0.3s;
+            margin: 0; font-weight: 500;
+        }
+        .attendance-options input[type="radio"] { display: none; }
+        .attendance-options input[type="radio"]:checked + label {
+            background-color: var(--dark-pink); color: white; font-weight: bold;
+        }
+        #rsvp-form select {
+            width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; font-family: var(--font-body);
+            font-size: 16px; /* Prevents auto-zoom on iOS */
+        }
+        #rsvp-form input[type="text"], #rsvp-form textarea {
+            font-size: 16px; /* Prevents auto-zoom on iOS */
+        }
+        #rsvp-form button i { margin-right: 8px; }
     </style>
 </head>
 <body>
@@ -238,11 +269,11 @@
                 <p class="animated fade-in-up delay-3 section-subtitle" style="margin-bottom: 0;">"I would be delighted if you could come and join me in celebrating this special milestone."</p>
             </section>
     
-            <img src="https://i.imgur.com/B7YTeLp.png" alt="divider" class="divider animated zoom-in">
-
             <!-- Event Details Section -->
             <section class="event-details">
-                <p class="section-subtitle animated fade-in-up">With the sincerest gratitude, we would like to invite you to attend and share your blessings at the 17th birthday celebration of our beloved daughter:</p>
+                <p class="section-subtitle">
+                    <span class="animated fade-in-up">With the sincerest gratitude, we would like to invite you to attend and share your blessings at the 17th birthday celebration of our beloved daughter:</span>
+                </p>
                 <div class="details-box-container">
                     <div class="detail-box animated fade-in-left">
                         <i class="fa-solid fa-calendar-check"></i>
@@ -279,7 +310,10 @@
             <!-- Love Gift Section -->
             <section id="gift">
                 <h2 class="section-title animated fade-in-up">Love Gift</h2>
-                <p class="section-subtitle animated fade-in-up">Your prayers and blessings are the most meaningful gift of all. However, should you wish to give a tangible gift, you may do so via cashless transfer.</p>
+                <p class="section-subtitle">
+                    <span class="animated fade-in-up d-block">Your prayers and blessings are the most meaningful gift of all.</span>
+                    <span class="animated fade-in-up d-block delay-1">However, should you wish to give a tangible gift, you may do so via cashless transfer.</span>
+                </p>
                 <div class="gift-card animated zoom-in">
                     <i class="fa-solid fa-wallet" style="font-size: 2.5rem; color: var(--gold);"></i>
                     <!-- EDIT BANK, NO. REKENING, DAN NAMA -->
@@ -296,25 +330,100 @@
             <section id="rsvp">
                 <h2 class="section-title animated fade-in-up">Guest Book</h2>
                 <p class="section-subtitle animated fade-in-up" style="margin-bottom: 0;">Kindly confirm your attendance through the form below.</p>
-                <form id="rsvp-form" class="animated zoom-in">
-                    <label for="guestName">Your Name:</label>
-                    <input type="text" id="guestName" name="guestName" placeholder="Write your name here" required>
+                <form id="rsvp-form" class="animated zoom-in" autocomplete="off">
+                    <label for="nama">Your Name:</label>
+                    <input type="text" id="nama" name="nama" placeholder="Write your name here" required>
+                    
+                    <label for="kehadiran">Will you be attending?</label>
+                    <div class="attendance-options">
+                        <input type="radio" id="attending-yes" name="kehadiran" value="Hadir" required>
+                        <label for="attending-yes">Yes, I'll be there</label>
+                        <input type="radio" id="attending-no" name="kehadiran" value="Tidak Hadir">
+                        <label for="attending-no">Sorry, I can't make it</label>
+                    </div>
+
+                    <div id="guests-group" style="display: none;">
+                        <label for="jumlah">Number of Guests (including you):</label>
+                        <select id="jumlah" name="jumlah">
+                            <option value="1">1 Person</option>
+                            <option value="2">2 People</option>
+                        </select>
+                    </div>
+
+                    <label for="ucapan">Message & Wishes:</label>
+                    <textarea id="ucapan" name="ucapan" rows="4" placeholder="Write your best wishes here" required></textarea>
     
-                    <label for="message">Message & Best Wishes:</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Write your best wishes here" required></textarea>
-    
-                    <button type="submit">Send Message</button>
-                    <div id="form-response"></div>
+                    <button type="submit">
+                        <i class="fa-solid fa-paper-plane"></i> Send Confirmation
+                    </button>
+                    <div id="form-response" style="height: 20px;"></div>
                 </form>
             </section>
+
+            <!-- Wishes Gallery Section -->
+            <section id="wishes-gallery-section" style="display: none;">
+                <h2 class="section-title animated fade-in-up">Wishes & Prayers</h2>
+                <div id="wishes-gallery" class="wishes-gallery animated zoom-in">
+                    <!-- Wishes will be loaded here by JavaScript -->
+                </div>
+                <p id="no-wishes-message" style="display: none; color: #888; margin-top: 20px;">Be the first to send a wish!</p>
+            </section>
+
+            <style>
+                /* [BARU] CSS untuk Galeri Ucapan (Gaya Gelembung Chat) */
+                .wishes-gallery {
+                    max-height: 500px; overflow-y: auto; padding-right: 10px;
+                    display: flex; flex-direction: column; gap: 15px;
+                }
+                /* Scrollbar kustom untuk galeri ucapan */
+                .wishes-gallery::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .wishes-gallery::-webkit-scrollbar-track {
+                    background: rgba(0,0,0,0.05);
+                    border-radius: 10px;
+                }
+                .wishes-gallery::-webkit-scrollbar-thumb {
+                    background: #ccc;
+                    border-radius: 10px;
+                }
+                .wishes-gallery::-webkit-scrollbar-thumb:hover {
+                    background: #aaa;
+                }
+                .wish-card {
+                    background-color: var(--bg-light);
+                    border: 1px solid #EAE8E1;
+                    padding: 15px 20px; border-radius: 15px; text-align: left;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+                    position: relative;
+                    max-width: 90%;
+                    margin-left: 0;
+                    border-radius: 20px 20px 20px 5px; /* Bentuk gelembung */
+                }
+                .wish-card::before {
+                    content: "";
+                    position: absolute;
+                    bottom: -1px; left: -10px;
+                    border: 12px solid transparent; border-bottom-color: #EAE8E1;
+                }
+                .wish-card .sender-name { 
+                    font-weight: bold; color: var(--dark-pink); margin-bottom: 5px; display: block; 
+                }
+                .wish-card .message-text { 
+                    font-style: italic; color: var(--text-light); margin: 0;
+                }
+            </style>
     
             <!-- Closing Section -->
-            <section class="thank-you" style="background: transparent; border: none; backdrop-filter: none;">
-                <p class="animated fade-in-up section-subtitle" style="text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);">It would be an honor and a joy for us if you could be present to give your prayers and blessings.</p>
-                <h2 class="script-text animated zoom-in" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">Thank You</h2>
+            <section class="thank-you">
+                <p class="section-subtitle">
+                    <span class="animated fade-in-up d-block">It would be an honor and a joy for us if you could be present to give your prayers and blessings.</span>
+                </p>
+                <h2 class="script-text animated zoom-in">Thank You</h2>
             </section>
         </div>
     </div>
+    <style>.d-block { display: block; }</style>
     
     <script>
         /* =================================
@@ -339,7 +448,7 @@
                 // === Manually trigger the first set of animations ===
                 setTimeout(() => {
                     document.querySelectorAll('.hero .animated').forEach(el => {
-                        el.classList.add('in-view');
+                        el.classList.add('visible');
                     });
                 }, 400); // Delay to allow the cover to slide out
 
@@ -379,12 +488,13 @@
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('in-view');
+                            entry.target.classList.add('visible');
                         } else {
-                            entry.target.classList.remove('in-view');
+                            // Hapus 'visible' saat keluar viewport agar animasi bisa diputar lagi saat scroll kembali
+                            entry.target.classList.remove('visible');
                         }
                     });
-                }, { threshold: 0.2 }); 
+                }, { rootMargin: '0px 0px -250px 0px' }); // Memicu animasi keluar lebih awal
 
                 // Observe all animated elements except those in the hero section
                 document.querySelectorAll('.animated:not(.hero .animated)').forEach(el => observer.observe(el));
@@ -393,14 +503,98 @@
             // --- FUNCTION FOR RSVP FORM ---
             const rsvpForm = document.getElementById('rsvp-form');
             const formResponse = document.getElementById('form-response');
+            const attendanceOptions = document.querySelectorAll('input[name="kehadiran"]');
+            const guestsGroup = document.getElementById('guests-group');
+
+            attendanceOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    if (this.value === 'Hadir') {
+                        guestsGroup.style.display = 'block';
+                    } else {
+                        guestsGroup.style.display = 'none';
+                    }
+                });
+            });
+
             if (rsvpForm) {
                 rsvpForm.addEventListener('submit', (e) => {
                     e.preventDefault(); 
-                    formResponse.textContent = 'Thank you! Your message has been sent.';
-                    rsvpForm.reset();
-                    setTimeout(() => { formResponse.textContent = ''; }, 4000);
+                    const scriptURL = 'https://script.google.com/macros/s/AKfycbx_8tZufKCybVzF5kOBYaHBQB73C6dhQYwaMkYVMp4co2aXX-nUHST7yfTN-0Cw4JEZ/exec';
+                    const submitButton = rsvpForm.querySelector('button[type="submit"]');
+                    
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+                    fetch(scriptURL, { method: 'POST', body: new FormData(rsvpForm)})
+                        .then(response => response.json())
+                        .then(data => {
+                            formResponse.textContent = 'Thank you! Your confirmation has been sent.';
+                            formResponse.style.color = 'var(--dark-pink)';
+                            rsvpForm.reset();
+                            if (guestsGroup) guestsGroup.style.display = 'none';
+                            // Panggil loadWishes() lagi untuk memuat ulang galeri secara dinamis
+                            loadWishes();
+                        })
+                        .catch(error => { // Perbaikan: Menampilkan error yang lebih spesifik
+                            formResponse.textContent = 'Error! Failed to send confirmation.';
+                            formResponse.style.color = 'red';
+                            // Menampilkan pesan error dari server jika ada, atau error umum
+                            const errorMessage = error.message || 'Silakan periksa koneksi Anda atau coba lagi nanti.';
+                            console.error('Error submitting form!', errorMessage);
+                        }).finally(() => {
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Confirmation';
+                        });
                 });
             }
+
+            // --- FUNCTION TO LOAD AND DISPLAY WISHES ---
+            const loadWishes = () => {
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbx_8tZufKCybVzF5kOBYaHBQB73C6dhQYwaMkYVMp4co2aXX-nUHST7yfTN-0Cw4JEZ/exec';
+                const galleryContainer = document.getElementById('wishes-gallery-section');
+                const wishesGallery = document.getElementById('wishes-gallery');
+                const noWishesMessage = document.getElementById('no-wishes-message');
+
+                fetch(scriptURL)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.result === 'success' && result.data.length > 0) {
+                            // Data ditemukan, tampilkan galeri dan sembunyikan pesan "tidak ada ucapan"
+                            galleryContainer.style.display = 'block';
+                            noWishesMessage.style.display = 'none';
+                            wishesGallery.innerHTML = ''; // Clear previous wishes
+
+                            result.data.forEach(wish => {
+                                const card = document.createElement('div');
+                                card.className = 'wish-card';
+                                card.innerHTML = `
+                                    <span class="sender-name">${wish.nama || 'Anonymous'}</span>
+                                    <p class="message-text">${wish.ucapan || ''}</p>
+                                `;
+                                wishesGallery.appendChild(card);
+                            });
+                        } else {
+                            // Tidak ada data ucapan, tampilkan pesan dan sembunyikan galeri
+                            galleryContainer.style.display = 'block';
+                            wishesGallery.innerHTML = ''; // Pastikan galeri kosong
+                            noWishesMessage.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching wishes!', error);
+                        // Jika gagal mengambil data, tampilkan pesan error di tempat galeri
+                        galleryContainer.style.display = 'block';
+                        noWishesMessage.style.display = 'block';
+                        noWishesMessage.textContent = 'Failed to load wishes. Please try reloading the page.';
+                        noWishesMessage.style.color = 'red';
+                    });
+            };
+
+            // Panggil loadWishes saat undangan dibuka DAN saat halaman dimuat (jika undangan sudah terbuka)
+            openButton.addEventListener('click', () => {
+                // Panggil loadWishes setelah konten utama ditampilkan
+                setTimeout(loadWishes, 500);
+            }, { once: true });
 
             // --- FUNCTION FOR COPY TO CLIPBOARD ---
             const copyButton = document.getElementById('copy-button');
