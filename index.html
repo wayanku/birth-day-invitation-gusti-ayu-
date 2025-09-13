@@ -86,11 +86,22 @@
         #cover h4 { font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; color: var(--text-light); animation-delay: 0.5s; text-transform: uppercase; }
         #cover h1 { font-family: var(--font-script); font-size: clamp(3rem, 12vw, 4.5rem); margin: 5px 0 10px 0; color: var(--dark-pink); font-weight: normal; animation-delay: 0.7s; }
 
+        /* [BARU] Styling untuk nama tamu di cover */
+        .recipient-box {
+            margin-top: 20px;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+        .recipient-box p { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--text-light); }
+        #guest-name { font-size: 1.2rem; color: var(--text-dark); font-weight: 500; display: block; margin-top: 4px; }
+
         #open-invitation {
-            background-color: var(--dark-pink); color: white; border: none; padding: 12px 35px; border-radius: 50px; font-family: var(--font-body); font-size: 1rem; font-weight: 500; letter-spacing: 0.5px;
-            margin-top: 30px;
+            background-color: var(--dark-pink); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px;
+            margin-top: 15px;
             cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
             animation: fadeInUp 1s ease-out 1.1s forwards;
+            width: auto; /* Tombol menyesuaikan dengan teks */
+            max-width: 300px; /* Batas lebar maksimum */
         }
         #open-invitation:hover { background-color: #c14c72; transform: scale(1.05); }
 
@@ -558,9 +569,19 @@
         </div>
 
         <div class="cover-content">
-            <h4>The Sweet Seventeen Birthday Of</h4>
-            <!-- EDIT NAMA DI SINI (sudah ada) -->
-            <h1>Gusti Ayu</h1>
+            <h4>BIRTHDAY INVITATION</h4>
+            <p style="animation: fadeInUp 1s ease-out 0.7s forwards; opacity: 0; margin-bottom: 20px;">Saturday, 27 September 2025</p>
+            <!-- [BARU] Bagian untuk menampilkan nama tamu -->
+            <div class="recipient-box" id="recipient-box">
+                <p>You are cordially invited to</p>
+                <!-- Nama tamu dinamis akan muncul di sini jika ada di URL -->
+                <strong id="guest-name-static"></strong>
+            </div>
+            <!-- [DIUBAH] Kotak nama tamu dinamis, akan muncul jika ada ?to= di URL -->
+            <div class="recipient-box" id="dynamic-recipient-box" style="display: none;">
+                <p>To:</p>
+                <strong id="guest-name-dynamic"></strong>
+            </div>
             <button id="open-invitation"><i class="fa-solid fa-envelope-open"></i> Open Invitation</button>
         </div>
     </div>
@@ -744,6 +765,21 @@
             const music = document.getElementById('background-music');
             const musicToggle = document.getElementById('music-toggle');
             
+            // --- [BARU] FUNCTION TO GET GUEST NAME FROM URL ---
+            const getGuestName = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const guest = urlParams.get('to');
+                const staticRecipientBox = document.getElementById('recipient-box');
+                const dynamicRecipientBox = document.getElementById('dynamic-recipient-box');
+                if (guest) {
+                    staticRecipientBox.style.display = 'none'; // Sembunyikan sapaan statis
+                    dynamicRecipientBox.querySelector('#guest-name-dynamic').textContent = guest.replace(/\+/g, ' ');
+                    dynamicRecipientBox.style.display = 'block'; // Tampilkan sapaan dinamis dengan nama
+                }
+            };
+            // Panggil fungsi saat halaman dimuat
+            getGuestName();
+
             // --- FUNCTION TO OPEN THE INVITATION ---
             openButton.addEventListener('click', () => {
                 cover.classList.add('out');
