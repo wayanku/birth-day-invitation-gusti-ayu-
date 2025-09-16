@@ -11,11 +11,14 @@
     <!-- === META TAGS FOR SOCIAL MEDIA SHARING (WhatsApp, Facebook, etc.) === -->
     <meta property="og:title" content="Birthday Invitation: Gusti Ayu's Sweet Seventeen">
     <meta property="og:description" content="Join us on Saturday, 27 September 2025 at 06:00 PM in Klungkung, Bali to celebrate Gusti Ayu's special day.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/wayanku/birth-day-invitation-gusti-ayu-/main/foto%20sweet.webp">
+    <meta property="og:image" content="https://raw.githubusercontent.com/wayanku/birth-day-invitation-gusti-ayu-/main/Desain%20tanpa%20judul%20(2)%20(2).webp">
     <!-- GANTI URL DI BAWAH INI DENGAN LINK LIVE UNDANGAN ANDA -->
     <meta property="og:url" content="https://wayanku.github.io/birth-day-invitation-gusti-ayu-/">
     <meta property="og:type" content="website">
     
+    <!-- [BARU] Menambahkan Favicon untuk ikon di tab browser -->
+    <link rel="icon" href="https://raw.githubusercontent.com/wayanku/birth-day-invitation-gusti-ayu-/main/foto%20sweet.webp" type="image/webp">
+
     <!-- Loading Fonts from Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +44,11 @@
             --font-body: 'Poppins', sans-serif;
         }
 
+        /* [BARU] Utility class untuk menyembunyikan section */
+        .section-hidden {
+            display: none !important;
+        }
+
         /* Basic Setup & Smooth Scrolling */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -54,11 +62,11 @@
         }
         
         /* Cover Page */
+        /* [DIUBAH] Mengubah posisi cover agar menjadi bagian dari scroll */
         #cover {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; /* Menggunakan vh bukan 100% */
+            position: relative; /* Bukan 'fixed' lagi */
+            width: 100%; height: 100vh;
             display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center;
-            z-index: 100;
-            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
         
         /* [BARU] Ornamen, Slider, dan Konten dari referensi */
@@ -88,8 +96,6 @@
             width: 100%; display: flex; flex-direction: column; align-items: center;
         }
 
-        #cover.out { transform: translateY(-100%); }
-
         .cover-content > * { opacity: 0; animation: fadeInUp 1s ease-out forwards; }
         #cover h4 { font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; color: var(--text-light); animation-delay: 0.5s; text-transform: uppercase; }
         #cover h1 { font-family: var(--font-script); font-size: clamp(3rem, 12vw, 4.5rem); margin: 5px 0 10px 0; color: var(--dark-pink); font-weight: normal; animation-delay: 0.7s; }
@@ -115,8 +121,7 @@
 
         /* Main Invitation Content */
         #invitation-content {
-            display: none; /* Hidden initially */
-            max-width: 800px; margin: auto; background-color: transparent;
+            max-width: 800px; margin: -10vh auto 0 auto; /* [DIUBAH] Tarik ke atas agar menyatu dengan cover */
             padding-bottom: calc(50px + env(safe-area-inset-bottom)); /* Memberi ruang di bawah untuk safe area + padding tambahan */
         }
         .main-background {
@@ -561,14 +566,127 @@
         .d-block { display: block; }
     </style>
 </head>
-<body>
+<body style="overflow: hidden;">
+
+    <!-- =================================
+       [BARU] PRE-COVER / GIFT PAGE SECTION
+       ================================= -->
+    <div id="pre-cover" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(175deg, var(--bg-light) 0%, var(--bg-off-white) 100%); z-index: 200; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 1s ease-out, visibility 1s;">
+        <!-- [DIUBAH] Menghapus rotasi, kembali ke tampilan tegak -->
+        <div id="gift-box" style="position: relative; width: 200px; height: 200px; cursor: pointer; perspective: 1000px;">
+            <!-- [DIUBAH] Tutup Kado dengan Gradien dan Bayangan -->
+            <div id="gift-lid" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 220px; height: 60px; background: linear-gradient(to bottom, #d15c82, #c14c72); border-radius: 10px; z-index: 2; transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55); transform-origin: top center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>
+            <!-- [DIUBAH] Badan Kado dengan Gradien dan Bayangan Dalam -->
+            <div id="gift-box-base" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 140px; background: linear-gradient(to bottom, #f3b0c3, #e8a2b6); border-radius: 5px; box-shadow: inset 0 5px 15px rgba(0,0,0,0.1);"></div>
+            <!-- [DIUBAH] Efek partikel/confetti dari dalam kado -->
+            <div id="confetti-container" style="position: absolute; top: 60%; left: 50%; width: 1px; height: 1px; z-index: 1; transform: translate(-50%, -50%);">
+                <!-- Kita akan buat 15 partikel dengan CSS -->
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            </div>
+            <!-- [DIUBAH] Pita Vertikal dengan Gradien -->
+            <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 25px; height: 100%; background: linear-gradient(to right, #c14c72, #b34065); border-radius: 5px;"></div>
+            <!-- [DIUBAH] Pita Horizontal dengan Gradien -->
+            <div style="position: absolute; top: 50px; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 25px; background: linear-gradient(to bottom, #c14c72, #b34065); border-radius: 5px;"></div>
+            <!-- [BARU] Simpul Pita di Atas -->
+            <div id="ribbon-bow" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 3; transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);">
+                <div style="position: absolute; width: 50px; height: 50px; background: #d15c82; border: 3px solid #b34065; border-radius: 50% 50% 0 50%; transform: rotate(-45deg) translate(-20px, -5px);"></div>
+                <div style="position: absolute; width: 50px; height: 50px; background: #d15c82; border: 3px solid #b34065; border-radius: 50% 50% 50% 0; transform: rotate(45deg) translate(20px, -5px);"></div>
+            </div>
+        </div>
+        <div id="pre-cover-content" style="opacity: 1; transition: opacity 0.5s ease-out; margin-top: 30px;">
+            <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 8px;">A special invitation for:</p>
+            <h3 id="pre-cover-guest-name" style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--dark-pink); margin-bottom: 25px;">Tamu Undangan</h3>
+            <button id="open-gift-button" style="background-color: var(--dark-pink); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-family: var(--font-body); font-size: 1rem; font-weight: 500; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;">
+                <i class="fa-solid fa-envelope-open"></i> Open Invitation
+            </button>
+        </div>
+    </div>
+    
+    <style>
+        /* [BARU] Keyframes untuk animasi kado yang lebih dinamis */
+        /* [DIUBAH] Menyesuaikan animasi terbang kembali ke versi tegak */
+        @keyframes lid-lift {
+            0% { transform: translateX(-50%) translateY(0) rotate(0); }
+            40% { transform: translateX(-50%) translateY(-30px) rotate(-5deg); }
+            100% { transform: translateX(-50%) translateY(-250px) rotate(35deg); opacity: 0; }
+        }
+        @keyframes ribbon-lift {
+            0% { transform: translateX(-50%) translateY(0) rotate(0); }
+            40% { transform: translateX(-50%) translateY(-30px) rotate(-5deg); }
+            100% { transform: translateX(-50%) translateY(-250px) rotate(35deg); opacity: 0; }
+        }
+
+        @keyframes box-shake {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            10%, 30%, 50% { transform: translateX(-50%) scale(1.05) rotate(-2deg); }
+            20%, 40% { transform: translateX(-50%) scale(1.05) rotate(2deg); }
+        }
+        
+        /* [BARU] Styling dan animasi untuk partikel confetti */
+        .particle {
+            position: absolute;
+            left: 0; top: 0;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            opacity: 0;
+        }
+        #pre-cover.opened .particle {
+            animation: burst 1.5s ease-out forwards;
+        }
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+            100% { transform: var(--transform-end) scale(1); opacity: 0; }
+        }
+        /* Memberi animasi yang berbeda untuk setiap partikel */
+        .particle:nth-child(1) { --transform-end: translate(-80px, -150px) rotate(140deg); animation-delay: 0s; background-color: #ffda79; }
+        .particle:nth-child(2) { --transform-end: translate(90px, -100px) rotate(-120deg); animation-delay: 0.05s; }
+        .particle:nth-child(3) { --transform-end: translate(-70px, -80px) rotate(160deg); animation-delay: 0.1s; background-color: #f3b0c3; }
+        .particle:nth-child(4) { --transform-end: translate(100px, -160px) rotate(-150deg); animation-delay: 0.15s; }
+        .particle:nth-child(5) { --transform-end: translate(-120px, -120px) rotate(180deg); animation-delay: 0.2s; background-color: #ffda79; }
+        .particle:nth-child(6) { --transform-end: translate(130px, -90px) rotate(-170deg); animation-delay: 0.25s; }
+        .particle:nth-child(7) { --transform-end: translate(-90px, -180px) rotate(130deg); animation-delay: 0.3s; background-color: #f3b0c3; }
+        .particle:nth-child(8) { --transform-end: translate(110px, -200px) rotate(-140deg); animation-delay: 0.35s; }
+        .particle:nth-child(9) { --transform-end: translate(-140px, -100px) rotate(150deg); animation-delay: 0.4s; background-color: #ffda79; }
+        .particle:nth-child(10) { --transform-end: translate(150px, -140px) rotate(-160deg); animation-delay: 0.45s; }
+        .particle:nth-child(11) { --transform-end: translate(-60px, -200px) rotate(170deg); animation-delay: 0.5s; background-color: #f3b0c3; }
+        .particle:nth-child(12) { --transform-end: translate(80px, -220px) rotate(-180deg); animation-delay: 0.55s; }
+        .particle:nth-child(13) { --transform-end: translate(-100px, -210px) rotate(120deg); animation-delay: 0.6s; background-color: #ffda79; }
+        .particle:nth-child(14) { --transform-end: translate(120px, -180px) rotate(-130deg); animation-delay: 0.65s; }
+        .particle:nth-child(15) { --transform-end: translate(-80px, -230px) rotate(150deg); animation-delay: 0.7s; background-color: #f3b0c3; }
+        
+        /* [BARU] Animasi untuk simpul pita agar ikut terangkat */
+        /* [DIUBAH] Menggunakan keyframe terpisah untuk pita */
+        #pre-cover.opened #ribbon-bow {
+            animation: ribbon-lift 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        /* [DIUBAH] Menerapkan animasi baru saat kelas 'opened' ditambahkan */
+        #pre-cover.opened #gift-lid {
+            animation: lid-lift 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+        #pre-cover.opened #gift-box-base {
+            animation: box-shake 0.5s ease-in-out forwards;
+        }
+
+        #pre-cover.hiding {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+    </style>
 
     <!-- =================================
        COVER PAGE SECTION
        ================================= -->
-    <div id="cover">
+    <!-- [DIUBAH] Cover awalnya tidak terlihat, dikontrol oleh JS -->
+    <div id="cover" style="visibility: hidden; opacity: 0; transition: opacity 1s ease-in 0.5s, visibility 1s;">
         <!-- [BARU] Ornamen dan Slider dari referensi -->
-        <div class="background-slider">
+        <div class="background-slider" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
             <div class="slide"></div> <div class="slide"></div> <div class="slide"></div>
         </div>
 
@@ -586,7 +704,7 @@
                 <p>To:</p>
                 <strong id="guest-name-dynamic"></strong>
             </div>
-            <button id="open-invitation"><i class="fa-solid fa-envelope-open"></i> Open Invitation</button>
+            <!-- [DIHAPUS] Tombol open-invitation dihilangkan dari sini -->
         </div>
     </div>
 
@@ -598,7 +716,7 @@
         <div class="snow"></div>
         <div class="snow"></div>
         <div class="snow"></div>
-        <div id="invitation-content">
+        <div id="invitation-content" style="display: none;">
             
             <!-- Music Player & Control Button -->
             <audio id="background-music" loop>
@@ -646,7 +764,7 @@
                         <i class="fa-solid fa-tshirt"></i>
                         <h3>Dresscode</h3>
                         <!-- EDIT DRESSCODE -->
-                        <p>Black, Navy, Etc.</p>
+                        <p>Black, Pink, Etc.</p>
                     </div>
                 </div>
             </section>
@@ -663,7 +781,7 @@
             </section>
 
             <!-- Love Gift Section -->
-            <section id="gift">
+            <section id="gift" class="section-hidden">
                 <h2 class="section-title animated fade-in-up">Love Gift</h2>
                 <p class="section-subtitle">
                     <span class="animated fade-in-up d-block" style="--delay: 0.1s;">Your prayers and blessings are the most meaningful gift of all.</span>
@@ -763,11 +881,50 @@
            JAVASCRIPT (INTERACTIVITY) SECTION
            ================================= */
         document.addEventListener('DOMContentLoaded', () => {
+            // --- [BARU] PRE-COVER ELEMENTS ---
+            const preCover = document.getElementById('pre-cover');
+            const openGiftButton = document.getElementById('open-gift-button');
+            const giftBox = document.getElementById('gift-box');
+            const preCoverGuestName = document.getElementById('pre-cover-guest-name');
+
             const cover = document.getElementById('cover');
             const openButton = document.getElementById('open-invitation');
             const invitationContent = document.getElementById('invitation-content');
             const music = document.getElementById('background-music');
             const musicToggle = document.getElementById('music-toggle');
+
+            // --- [BARU] LOGIC FOR PRE-COVER ---
+            const handleOpenGift = () => {
+                // 1. Animasikan kado terbuka dan sembunyikan teksnya
+                preCover.classList.add('opened'); // Animasikan kado terbuka
+                document.getElementById('pre-cover-content').style.opacity = '0'; // Sembunyikan teks
+
+                // 2. Tampilkan halaman sampul setelah animasi kado dimulai
+                setTimeout(() => {
+                    cover.style.visibility = 'visible';
+                    cover.style.opacity = '1';
+                }, 300);
+
+                // 3. Sembunyikan halaman kado dan aktifkan konten utama
+                setTimeout(() => {
+                    preCover.classList.add('hiding');
+                    document.body.style.overflow = 'auto'; // Kembalikan scroll body
+                    invitationContent.style.display = 'block';
+                    musicToggle.style.display = 'flex';
+                    music.play().catch(error => { console.log("Autoplay was blocked."); });
+                    initScrollAnimations();
+                    // [BARU] Memicu animasi untuk section hero secara manual
+                    // karena section ini sudah terlihat saat halaman dibuka.
+                    setTimeout(() => {
+                        document.querySelectorAll('.hero .animated').forEach(el => el.classList.add('visible'));
+                    }, 100); // Sedikit jeda agar transisi berjalan mulus
+
+                    // [DIHAPUS] Logika untuk menyembunyikan #cover tidak diperlukan lagi
+                    setTimeout(loadWishes, 500);
+                }, 1200); // Waktu disesuaikan agar konten muncul saat kado menghilang
+            };
+            openGiftButton.addEventListener('click', handleOpenGift);
+            giftBox.addEventListener('click', handleOpenGift);
             
             // --- [BARU] FUNCTION TO GET GUEST NAME FROM URL ---
             const getGuestName = () => {
@@ -775,36 +932,22 @@
                 const guest = urlParams.get('to');
                 const staticRecipientBox = document.getElementById('recipient-box');
                 const dynamicRecipientBox = document.getElementById('dynamic-recipient-box');
+                const guestName = guest ? guest.replace(/[+]/g, ' ') : 'Tamu Undangan';
+
+                // Set nama di halaman kado dan halaman sampul
+                preCoverGuestName.textContent = guestName;
+                dynamicRecipientBox.querySelector('#guest-name-dynamic').textContent = guestName;
+
                 if (guest) {
                     staticRecipientBox.style.display = 'none'; // Sembunyikan sapaan statis
-                    dynamicRecipientBox.querySelector('#guest-name-dynamic').textContent = guest.replace(/\+/g, ' ');
                     dynamicRecipientBox.style.display = 'block'; // Tampilkan sapaan dinamis dengan nama
                 }
             };
             // Panggil fungsi saat halaman dimuat
             getGuestName();
 
-            // --- FUNCTION TO OPEN THE INVITATION ---
-            openButton.addEventListener('click', () => {
-                cover.classList.add('out');
-                document.body.style.overflowY = 'auto'; // Allow scrolling
-                invitationContent.style.display = 'block';
-                musicToggle.style.display = 'flex';
-
-                music.play().catch(error => { console.log("Autoplay was blocked."); });
-                
-                // === Manually trigger the first set of animations ===
-                setTimeout(() => {
-                    document.querySelectorAll('.hero .animated').forEach(el => {
-                        el.classList.add('visible');
-                    });
-                }, 400); // Delay to allow the cover to slide out
-
-                initScrollAnimations();
-
-                // Panggil loadWishes setelah konten utama ditampilkan
-                setTimeout(loadWishes, 500);
-            });
+            // [DIHAPUS] Event listener untuk tombol #open-invitation yang lama sudah tidak diperlukan lagi
+            // karena logikanya telah dipindahkan ke handleOpenGift.
             
             // --- FUNCTION FOR MUSIC TOGGLE BUTTON ---
             musicToggle.addEventListener('click', () => {
