@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1012,10 +1013,14 @@
                 // Observe all animated elements except those in the hero section
                 document.querySelectorAll('.animated:not(.hero .animated)').forEach(el => observer.observe(el));
 
-                // Hapus kelas animasi setelah selesai agar bisa dipicu lagi
-                document.getElementById('seconds').parentElement.addEventListener('animationend', function() {
-                    this.classList.remove('flip-animation');
-                });
+                // [PERBAIKAN] Hapus kelas animasi setelah selesai agar bisa dipicu lagi
+                // Tambahkan pengecekan untuk memastikan elemen 'seconds' ada
+                const secondsContainer = document.getElementById('seconds')?.parentElement;
+                if (secondsContainer) {
+                    secondsContainer.addEventListener('animationend', function() {
+                        this.classList.remove('flip-animation');
+                    });
+                }
             };
 
             // --- FUNCTION FOR RSVP FORM ---
